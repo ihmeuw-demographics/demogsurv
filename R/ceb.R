@@ -118,5 +118,9 @@ calc_ceb <- function(data,
   )
 
   rownames(pred) <- NULL
+  if (varmethod != "lin") {
+    # survey::svyby returns se columns as 'se1' & 'se2' with non 'lin' varmethod
+    names(pred)[grepl("^se", names(pred))] <- paste0("se.", names(ceb))
+  }
   return(pred)
 }
