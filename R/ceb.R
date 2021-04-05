@@ -1,4 +1,4 @@
-#' @title Calculate mean children ever born & living
+#' @title Calculate mean children ever born (ceb) & living children (lc)
 #'
 #' @description Use default arguments to calculate mean children ever born
 #' related statistics from a DHS individual recode file.
@@ -25,10 +25,10 @@
 #'   & standard error of. Value corresponds to name in `data`, name corresponds
 #'   to new variable name in output. Default is 'c(ceb = "v201", lc = "v218")'.
 #' @param dob \[`character(1)`\]\cr
-#'   Variable name for date of birth of each individual. Default is 'v008'.
+#'   Variable name for date of birth of each interviewee. Default is 'v008'.
 #'   Required when `agegr` is not 'NULL'.
 #' @param intv \[`character(1)`\]\cr
-#'   Variable name for interview date for each individual. Default is 'v008'.
+#'   Variable name for interview date of each interviewee. Default is 'v008'.
 #'   Required when `agegr` is not 'NULL'.
 #' @param varmethod \[`character(1)`\]\cr
 #'   Method for variance calculation. Default is 'lin' for Taylor linearisation.
@@ -96,7 +96,7 @@ calc_ceb <- function(data,
     data$agegr <- cut(
       x = data[[intv]] - data[[dob]],
       breaks = agegr*scale, labels = .epis_labels(agegr),
-      include.lowest=TRUE, right=FALSE
+      include.lowest = TRUE, right = FALSE
     )
     by <- update(by, ~. + agegr)
   }

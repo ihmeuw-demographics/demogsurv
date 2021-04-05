@@ -2,7 +2,7 @@
 % Please edit documentation in R/ceb.R
 \name{calc_ceb}
 \alias{calc_ceb}
-\title{Calculate mean children ever born & living}
+\title{Calculate mean children ever born (ceb) & living children (lc)}
 \usage{
 calc_ceb(
   data,
@@ -24,7 +24,7 @@ Individual recode dataset.}
 
 \item{by}{[\code{formula()}]\cr
 A formula specifying factor variables by which to stratify analysis.
-Default is 'NULL' to specify no stratification.}
+Default is 'NULL' to specify no stratification. Passed to \code{\link[survey:svyby]{survey::svyby()}}.}
 
 \item{agegr}{[\code{numeric()}]\cr
 The start of each age group (in years) to group each individual's age by
@@ -48,11 +48,11 @@ Variable names for children ever born related columns to calculate the mean
 to new variable name in output. Default is 'c(ceb = "v201", lc = "v218")'.}
 
 \item{dob}{[\code{character(1)}]\cr
-Variable name for date of birth of each individual. Default is 'v008'.
+Variable name for date of birth of each interviewee. Default is 'v008'.
 Required when \code{agegr} is not 'NULL'.}
 
 \item{intv}{[\code{character(1)}]\cr
-Variable name for interview date for each individual. Default is 'v008'.
+Variable name for interview date of each interviewee. Default is 'v008'.
 Required when \code{agegr} is not 'NULL'.}
 
 \item{varmethod}{[\code{character(1)}]\cr
@@ -78,9 +78,6 @@ calc_ceb(zzir)
 
 }
 \seealso{
-\code{\link[survey:svydesign]{survey::svydesign()}}
-
-survey::svyby()
-
-survey::svymean()
+\code{\link[survey:svydesign]{survey::svydesign()}}, \link[survey:as.svrepdesign]{survey::as.svrepdesign}, \code{\link[survey:svyby]{survey::svyby()}},
+& \code{\link[survey:surveysummary]{survey::svymean()}} which this function uses internally.
 }
