@@ -16,7 +16,9 @@ Imports:
     survival (>= 2.39),
     survey (>= 2.33),
     reshape2 (>= 1.4.3),
-    stats
+    dplyr,
+    stats,
+    checkmate
 Suggests: 
     foreign,
     rdhs,
@@ -31,4 +33,5 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
-RoxygenNote: 7.0.2
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1

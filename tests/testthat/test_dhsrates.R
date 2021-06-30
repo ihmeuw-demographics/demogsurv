@@ -1,17 +1,29 @@
 context("Demographic rate outputs")
 
+# expected values for tests are from the dhs model dataset reports
+# https://dhsprogram.com/data/Download-Model-Datasets.cfm
+
 library(demogsurv)
 
 data(zzir)
 data(zzbr)
 
 test_that("fertility calculations match DHS tables", {
+  # table 5.1
   expect_equal(round(as.numeric(calc_tfr(zzir)$tfr), 1), 4.7)
   expect_equal(round(as.numeric(calc_tfr(zzir, ~v025)$tfr), 1), c(3.5, 5.7))
   expect_equal(round(1000*as.numeric(calc_asfr(zzir)$asfr)),
                c(119, 207, 216, 188, 125, 60, 28))
+
+  # table 5.4
+  expect_equal(calc_ceb(zzir)$mean,
+               c(0.26, 1.25, 2.54, 3.87, 4.85, 5.34, 6.01),
+               tolerance = 0.01)
+  expect_equal(calc_ceb(zzir, ceb = "v218")$mean,
+               c(0.22, 1.07, 2.12, 3.14, 3.83, 4.18, 4.54),
+               tolerance = 0.01)
 })
- 
+
 
 test_that("child mortality calculations work", {
   zzbr$death <- zzbr$b5 == "no"  # b5: child still alive ("yes"/"no")
@@ -22,7 +34,7 @@ test_that("child mortality calculations work", {
   expect_equal(round(c(calc_nqx(zzbr, by=~v102, tips=c(0, 5))$est), 3),
                c(0.153, 0.135))
 })
- 
+
 
 test_that("adult mortality calculation reproduce DHS tables", {
   zzsib <- reshape_sib_data(zzir)
@@ -51,4 +63,4 @@ test_that("variance calculation options work", {
     expect_equal(round(calc_nqx(zzbr, varmethod = "jkn")$se, 4), c(0.0119, 0.0083, 0.0064))
     expect_error(calc_nqx(zzbr, varmethod = "jibberish"))
 })
-    
+
