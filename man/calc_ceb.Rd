@@ -2,7 +2,7 @@
 % Please edit documentation in R/ceb.R
 \name{calc_ceb}
 \alias{calc_ceb}
-\title{Calculate mean children ever born (ceb) & living children (lc)}
+\title{Calculate mean children ever born (ceb)}
 \usage{
 calc_ceb(
   data,
@@ -11,11 +11,15 @@ calc_ceb(
   clusters = ~v021,
   strata = ~v024 + v025,
   weight = "v005",
-  ceb = c(ceb = "v201", lc = "v218"),
+  awfactt = NULL,
+  ceb = "v201",
   dob = "v011",
   intv = "v008",
   varmethod = "lin",
-  scale = 12
+  scale = 12,
+  awfactt_scale = 100,
+  counts = FALSE,
+  clustcounts = FALSE
 )
 }
 \arguments{
@@ -42,10 +46,9 @@ Must correspond to variables in \code{data}. Default is '~v024+v025'.}
 \item{weight}{[\code{character(1)}]\cr
 Variable name for sample weight. Default is 'v005'.}
 
-\item{ceb}{[\code{character()}]\cr
-Variable names for children ever born related columns to calculate the mean
-& standard error of. Value corresponds to name in \code{data}, name corresponds
-to new variable name in output. Default is 'c(ceb = "v201", lc = "v218")'.}
+\item{ceb}{[\code{character(1)}]\cr
+Variable name for children ever born related variable to calculate the mean
+& standard error of. Default is 'v201'.}
 
 \item{dob}{[\code{character(1)}]\cr
 Variable name for date of birth of each interviewee. Default is 'v008'.
@@ -64,17 +67,20 @@ designs. See \code{survey::as.svrepdesign} for more information.}
 Scale for dates inputs (\code{dob}, \code{intv}) to calendar years. 12 for CMC inputs.}
 }
 \value{
-[\code{data.frame()}] consisting of estimates and standard errors as
-returned by \code{survey::svyby}. The full covariance matrix of the estimates can
-be retreived by \code{vcov(val)}.
+[\code{data.frame()}] consisting of estimates and standard errors.
+The full covariance matrix of the estimates can be retrieved by \code{vcov(val)}.
 }
 \description{
-Use default arguments to calculate mean children ever born
-related statistics from a DHS individual recode file.
+Calculate mean children ever born or other related statistics
+(like mean number of living children) from a DHS individual recode file.
 }
 \examples{
 data(zzir)
+
+# children ever born
 calc_ceb(zzir)
+# children ever born and living
+calc_ceb(zzir, ceb = "v218")
 
 }
 \seealso{

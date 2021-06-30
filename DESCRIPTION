@@ -16,6 +16,7 @@ Imports:
     survival (>= 2.39),
     survey (>= 2.33),
     reshape2 (>= 1.4.3),
+    dplyr,
     stats,
     checkmate
 Suggests: 

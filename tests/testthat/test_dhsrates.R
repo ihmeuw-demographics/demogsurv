@@ -16,11 +16,10 @@ test_that("fertility calculations match DHS tables", {
                c(119, 207, 216, 188, 125, 60, 28))
 
   # table 5.4
-  table_5_4 <- calc_ceb(zzir)
-  expect_equal(table_5_4$ceb,
+  expect_equal(calc_ceb(zzir)$mean,
                c(0.26, 1.25, 2.54, 3.87, 4.85, 5.34, 6.01),
                tolerance = 0.01)
-  expect_equal(table_5_4$lc,
+  expect_equal(calc_ceb(zzir, ceb = "v218")$mean,
                c(0.22, 1.07, 2.12, 3.14, 3.83, 4.18, 4.54),
                tolerance = 0.01)
 })
