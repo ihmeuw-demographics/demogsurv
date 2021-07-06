@@ -44,7 +44,27 @@ jobs:
         run: R CMD INSTALL .
 
       - name: Deploy package
+        env:
+          RDHS_EMAIL: ${{ secrets.RDHS_EMAIL }}
+          RDHS_PROJECT: ${{ secrets.RDHS_PROJECT }}
+          RDHS_USER_PASS: ${{ secrets.RDHS_USER_PASS }}
+
         run: |
+          Rscript -e '
+            options("rappdir_permission" = TRUE)
+            rdhs::set_rdhs_config(
+              email = Sys.getenv("RDHS_EMAIL"),
+              project = Sys.getenv("RDHS_PROJECT"),
+              data_frame = "data.table::as.data.table",
+              password_prompt = FALSE,
+              global = TRUE,
+              config_path = "~/.rdhs.json",
+              cache_path = tempdir()
+            )
+          '
+
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
           Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE)'
+
+          Rscript -e 'unlink("~/.rdhs.json")'
